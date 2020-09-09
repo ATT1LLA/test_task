@@ -54,7 +54,7 @@ class Desk {
         $xTo   = $match[3];
         $yTo   = $match[4];
         $flag1 = isset($this->figures[$xTo][$yTo]);
-        $flag2 = isset($this->figures[$xTo][$yTo - 1]);
+        $flag2 = isset($this->figures[$xTo][($yTo + $yFrom) / 2]);
 
         if (isset($this->figures[$xFrom][$yFrom])) {
 
