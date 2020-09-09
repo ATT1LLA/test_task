@@ -53,11 +53,22 @@ class Desk {
         $yFrom = $match[2];
         $xTo   = $match[3];
         $yTo   = $match[4];
+        $flag1 = isset($this->figures[$xTo][$yTo]);
+        $flag2 = isset($this->figures[$xTo][$yTo - 1]);
 
         if (isset($this->figures[$xFrom][$yFrom])) {
 
             if (!($this->figures[$xFrom][$yFrom]->getIsBlack() xor $this->whiteToMove)) {
                 throw new \Exception("Wrong sequence of moves");
+            }
+
+            switch ($this->figures[$xFrom][$yFrom]->checkPawnMove($xFrom, $yFrom, $xTo, $yTo, $flag1, $flag2)) {
+                case 0:
+                    throw new \Exception("Illegal move");
+                case 1:
+                    break;
+                case 2:
+                    unset($this->figures[$xTo][$yTo]);
             }
 
             $this->figures[$xTo][$yTo] = $this->figures[$xFrom][$yFrom];
