@@ -2,6 +2,7 @@
 
 class Desk {
     private $figures = [];
+    private $whiteToMove;
 
     public function __construct() {
         $this->figures['a'][1] = new Rook(false);
@@ -39,6 +40,8 @@ class Desk {
         $this->figures['f'][8] = new Bishop(true);
         $this->figures['g'][8] = new Knight(true);
         $this->figures['h'][8] = new Rook(true);
+
+        $this->whiteToMove = true;
     }
 
     public function move($move) {
@@ -52,9 +55,15 @@ class Desk {
         $yTo   = $match[4];
 
         if (isset($this->figures[$xFrom][$yFrom])) {
+
+            if (!($this->figures[$xFrom][$yFrom]->getIsBlack() xor $this->whiteToMove)) {
+                throw new \Exception("Wrong sequence of moves");
+            }
+
             $this->figures[$xTo][$yTo] = $this->figures[$xFrom][$yFrom];
         }
         unset($this->figures[$xFrom][$yFrom]);
+        $this->whiteToMove = !$this->whiteToMove;
     }
 
     public function dump() {
